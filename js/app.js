@@ -6,6 +6,14 @@
    *
    * 应用程序的主要的模块
    */
-  angular.module('app', ['app.controllers', 'app.services']);
+  var app = angular.module('app', ['app.controllers', 'app.services', 'ngRoute']);
+
+  app.config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+      .when('/:status?', {
+        templateUrl: 'main_tmpl',
+        controller: 'MainController'
+      });
+  }]);
 
 })(angular);

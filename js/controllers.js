@@ -2,16 +2,16 @@
  * @Author: iceStone
  * @Date:   2016-02-15 21:12:22
  * @Last Modified by:   iceStone
- * @Last Modified time: 2016-02-15 23:07:18
+ * @Last Modified time: 2016-02-15 23:20:03
  */
 
 (function(angular) {
   'use strict';
 
-  var controllers = angular.module('app.controllers', []);
+  var controllers = angular.module('app.controllers', ['ngRoute']);
 
   // 注册一个主要的控制器
-  controllers.controller('MainController', ['$scope', '$location', 'MainService', function($scope, $location, MainService) {
+  controllers.controller('MainController', ['$scope', '$location', 'MainService', '$routeParams', function($scope, $location, MainService, $routeParams) {
     // [1,2,3,4,5]
 
 
@@ -57,23 +57,20 @@
 
     $scope.toggleAll = MainService.toggleAll;
 
-    $scope.$location = $location;
-    $scope.$watch('$location.path()', function(now) {
-      switch (now) {
-        case '/active':
-          $scope.filter = { completed: false };
-          break;
-        case '/completed':
-          $scope.filter = { completed: true };
-          break;
-        default:
-          $scope.filter = {};
-          break;
-      }
-    });
+    switch ($routeParams.status) {
+      case 'active':
+        $scope.filter = { completed: false };
+        break;
+      case 'completed':
+        $scope.filter = { completed: true };
+        break;
+      default:
+        $scope.filter = {};
+        break;
+    }
 
-    $scope.equalCompare=function (source,target) {
-    	return angular.equals(source,target);
+    $scope.equalCompare = function(source, target) {
+      return angular.equals(source, target);
     };
 
   }]);
